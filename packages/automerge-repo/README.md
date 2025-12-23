@@ -1,5 +1,24 @@
 # Automerge Repo
 
+---
+
+> **🔱 Fork Notice**
+> 
+> This is a fork of [`@automerge/automerge-repo`](https://github.com/automerge/automerge-repo) 
+> maintained by the [CryptForge](https://github.com/viktor-albus/cryptforge-sdk) team.
+> 
+> - **Original Project**: https://github.com/automerge/automerge-repo
+> - **Base Version**: 2.5.2-alpha.1
+> - **Published As**: `@cryptforge/automerge-repo`
+> 
+> This fork contains minimal modifications required for the CryptForge SDK. 
+> We maintain compatibility with the upstream project and sync regularly with updates.
+> 
+> **For the original package**, install `@automerge/automerge-repo`  
+> **For CryptForge integration**, install `@cryptforge/automerge-repo`
+
+---
+
 This is a wrapper for the [Automerge](https://github.com/automerge/automerge) CRDT library which
 provides facilities to support working with many documents at once, as well as pluggable networking
 and storage.

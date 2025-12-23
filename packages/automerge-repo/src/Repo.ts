@@ -3,6 +3,7 @@ import debug from "debug"
 import { EventEmitter } from "eventemitter3"
 import {
   binaryToDocumentId,
+  deriveAutomergeUrl,
   encodeHeads,
   generateAutomergeUrl,
   interpretAsDocumentId,
@@ -479,6 +480,35 @@ export class Repo extends EventEmitter<RepoEvents> {
     handle.doneLoading()
     return handle
   }
+
+    /**
+   * Creates a new document and returns a handle to it. The initial value of the document is an
+   * empty object `{}` unless an initial value is provided. Its documentId is derived from the provided name by the
+   * system. we emit a `document` event to advertise interest in the document.
+   */
+    derive<T>(name: string, initialValue?: T): DocHandle<T> {
+      let initialDoc: Automerge.Doc<T>
+      if (initialValue) {
+        initialDoc = Automerge.from(initialValue)
+      } else {
+        initialDoc = Automerge.emptyChange(Automerge.init())
+      }
+  
+      // Generate a new UUID and store it in the buffer
+      const { documentId } = parseAutomergeUrl(deriveAutomergeUrl(name))
+      const handle = this.#getHandle<T>({
+        documentId,
+      }) as DocHandle<T>
+  
+      this.#registerHandleWithSubsystems(handle)
+  
+      handle.update(() => {
+        return initialDoc
+      })
+  
+      handle.doneLoading()
+      return handle
+    }
 
   /**
    * Creates a new document and returns a handle to it. The initial value of the

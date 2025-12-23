@@ -151,7 +151,21 @@ export const isValidUuid = (str: unknown): str is LegacyDocumentId =>
  * Returns a new Automerge URL with a random UUID documentId. Called by Repo.create(), and also used by tests.
  */
 export const generateAutomergeUrl = (): AutomergeUrl => {
-  const documentId = Uuid.v4(null, new Uint8Array(16)) as BinaryDocumentId
+  const documentId = Uuid.v4({}, new Uint8Array(16)) as BinaryDocumentId
+  return stringifyAutomergeUrl({ documentId })
+}
+
+// Namespace UUID for deterministic document ID generation
+// This is a fixed UUID that ensures deterministic IDs are isolated from other UUID v5 uses
+const AUTOMERGE_NAMESPACE = "1a7e3f9c-4b8d-5e2f-a6c7-9d8e7f6a5b4c"
+
+/**
+ * Returns a deterministic Automerge URL based on the provided name.
+ * Same name always produces the same documentId. The output format is identical
+ * to generateAutomergeUrl() and can be used interchangeably.
+ */
+export const deriveAutomergeUrl = (name: string): AutomergeUrl => {
+  const documentId = Uuid.v5(name, AUTOMERGE_NAMESPACE, new Uint8Array(16), 0) as BinaryDocumentId
   return stringifyAutomergeUrl({ documentId })
 }
 

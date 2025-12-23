@@ -35,6 +35,7 @@ export {
   interpretAsDocumentId,
   documentIdToBinary,
   generateAutomergeUrl,
+  deriveAutomergeUrl,
   encodeHeads,
   decodeHeads,
 } from "./AutomergeUrl.js"
